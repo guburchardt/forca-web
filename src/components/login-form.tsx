@@ -24,15 +24,11 @@ export function LoginForm({
     setLoading(true)
     setError("")
 
-    // Simulate login process
+    // Auto-login - no authentication required
     setTimeout(() => {
-      if (email === "admin@conexao.com" && password === "admin123") {
-        router.push("/dashboard")
-      } else {
-        setError("Email ou senha incorretos")
-      }
+      router.push("/dashboard")
       setLoading(false)
-    }, 1000)
+    }, 500)
   }
 
   return (
@@ -83,6 +79,14 @@ export function LoginForm({
         </div>
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? "Entrando..." : "Entrar"}
+        </Button>
+        <Button 
+          type="button" 
+          variant="outline" 
+          className="w-full" 
+          onClick={() => router.push("/dashboard")}
+        >
+          Acessar Dashboard Diretamente
         </Button>
       </div>
     </form>
