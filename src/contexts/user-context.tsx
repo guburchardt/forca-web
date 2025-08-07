@@ -17,7 +17,7 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined)
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  const [role, setRole] = useState<UserRole>("instructor")
+  const [role, setRole] = useState<UserRole>("admin")
   
   const user = {
     name: role === "instructor" ? "João Silva" : "Admin",
