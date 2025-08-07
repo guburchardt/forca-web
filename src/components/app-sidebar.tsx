@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import { 
   Dumbbell, 
@@ -14,6 +16,8 @@ import {
 
 import { SearchForm } from "./search-form"
 import { UserSwitcher } from "./user-switcher"
+import { RoleSwitcher } from "./role-switcher"
+import { useUser } from "@/contexts/user-context"
 import {
   Sidebar,
   SidebarContent,
@@ -28,27 +32,8 @@ import {
 } from "@/components/ui/sidebar"
 
 // Navigation data for Conexão Treinamento
-const navigationData = {
-  navMain: [
-    {
-      title: "Gestão de Alunos",
-      url: "/dashboard/students",
-      icon: Users,
-      items: [
-        {
-          title: "Lista de Alunos",
-          url: "/dashboard/students",
-        },
-        {
-          title: "Adicionar Aluno",
-          url: "/dashboard/students/add",
-        },
-        {
-          title: "Histórico",
-          url: "/dashboard/students/history",
-        },
-      ],
-    },
+const getNavigationData = (role: "instructor" | "admin") => {
+  const baseNav = [
     {
       title: "Gestão de Aulas",
       url: "/dashboard/classes",
@@ -84,25 +69,6 @@ const navigationData = {
         {
           title: "Inscrições",
           url: "/dashboard/events/registrations",
-        },
-      ],
-    },
-    {
-      title: "Controle de Tempo",
-      url: "/dashboard/time-tracking",
-      icon: Clock,
-      items: [
-        {
-          title: "Time Sheet",
-          url: "/dashboard/time-tracking",
-        },
-        {
-          title: "Relatórios",
-          url: "/dashboard/time-tracking/reports",
-        },
-        {
-          title: "Projetos",
-          url: "/dashboard/time-tracking/projects",
         },
       ],
     },
@@ -144,6 +110,73 @@ const navigationData = {
         },
       ],
     },
+  ]
+
+  if (role === "instructor") {
+    return [
+      {
+        title: "Controle de Tempo",
+        url: "/dashboard/time-tracking",
+        icon: Clock,
+        items: [
+          {
+            title: "Registrar Horas",
+            url: "/dashboard/time-tracking",
+          },
+          {
+            title: "Meus Relatórios",
+            url: "/dashboard/time-tracking/reports",
+          },
+          {
+            title: "Meus Projetos",
+            url: "/dashboard/time-tracking/projects",
+          },
+        ],
+      },
+      ...baseNav
+    ]
+  }
+
+  return [
+    {
+      title: "Gestão de Alunos",
+      url: "/dashboard/students",
+      icon: Users,
+      items: [
+        {
+          title: "Lista de Alunos",
+          url: "/dashboard/students",
+        },
+        {
+          title: "Adicionar Aluno",
+          url: "/dashboard/students/add",
+        },
+        {
+          title: "Histórico",
+          url: "/dashboard/students/history",
+        },
+      ],
+    },
+    {
+      title: "Controle de Tempo (Instrutores)",
+      url: "/dashboard/time-tracking",
+      icon: Clock,
+      items: [
+        {
+          title: "Relatórios de Horas",
+          url: "/dashboard/time-tracking",
+        },
+        {
+          title: "Relatórios Gerais",
+          url: "/dashboard/time-tracking/reports",
+        },
+        {
+          title: "Projetos",
+          url: "/dashboard/time-tracking/projects",
+        },
+      ],
+    },
+    ...baseNav,
     {
       title: "Relatórios",
       url: "/dashboard/reports",
@@ -167,19 +200,23 @@ const navigationData = {
         },
       ],
     },
-  ],
+  ]
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { role } = useUser()
+  const navigationData = getNavigationData(role)
+
   return (
-    <Sidebar {...props}>
+    <Sidebar {...props} collapsible="icon">
       <SidebarHeader>
         <UserSwitcher />
+        <RoleSwitcher />
         <SearchForm />
       </SidebarHeader>
       <SidebarContent>
         {/* Main navigation groups */}
-        {navigationData.navMain.map((item) => (
+        {navigationData.map((item: any) => (
           <SidebarGroup key={item.title}>
             <SidebarGroupLabel className="flex items-center gap-2">
               <item.icon className="h-4 w-4" />
@@ -187,7 +224,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {item.items.map((subItem) => (
+                {item.items.map((subItem: any) => (
                   <SidebarMenuItem key={subItem.title}>
                     <SidebarMenuButton asChild>
                       <a href={subItem.url}>{subItem.title}</a>
