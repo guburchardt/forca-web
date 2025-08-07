@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge"
 import { Calendar } from "@/components/ui/calendar"
 import { 
   Calendar as CalendarIcon, 
-  Clock,
   Users,
   CheckCircle,
   AlertCircle,

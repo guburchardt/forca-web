@@ -9,13 +9,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { 
   User, 
-  Mail, 
-  Phone, 
-  Calendar,
-  MapPin,
   Save,
-  Camera,
-  Plus
+  Camera
 } from "lucide-react"
 
 export function AddStudentContent() {

@@ -10,14 +10,26 @@ import {
   BarChart3, 
   Settings,
   User,
-  LogOut,
-  Search
+  LogOut
 } from "lucide-react"
 
 import { SearchForm } from "./search-form"
 import { UserSwitcher } from "./user-switcher"
 import { RoleSwitcher } from "./role-switcher"
 import { useUser } from "@/contexts/user-context"
+
+// Navigation item types
+interface NavigationItem {
+  title: string
+  url: string
+}
+
+interface NavigationGroup {
+  title: string
+  url: string
+  icon: React.ComponentType<{ className?: string }>
+  items: NavigationItem[]
+}
 import {
   Sidebar,
   SidebarContent,
@@ -32,7 +44,7 @@ import {
 } from "@/components/ui/sidebar"
 
 // Navigation data for Conexão Treinamento
-const getNavigationData = (role: "instructor" | "admin") => {
+const getNavigationData = (role: "instructor" | "admin"): NavigationGroup[] => {
   const baseNav = [
     {
       title: "Gestão de Aulas",
@@ -216,7 +228,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         {/* Main navigation groups */}
-        {navigationData.map((item: any) => (
+        {navigationData.map((item: NavigationGroup) => (
           <SidebarGroup key={item.title}>
             <SidebarGroupLabel className="flex items-center gap-2">
               <item.icon className="h-4 w-4" />
@@ -224,7 +236,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {item.items.map((subItem: any) => (
+                {item.items.map((subItem: NavigationItem) => (
                   <SidebarMenuItem key={subItem.title}>
                     <SidebarMenuButton asChild>
                       <a href={subItem.url}>{subItem.title}</a>

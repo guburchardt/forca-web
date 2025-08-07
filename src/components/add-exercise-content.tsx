@@ -10,10 +10,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { 
   Dumbbell, 
   Camera, 
-  Save,
-  Plus,
-  Target,
-  Users
+  Save
 } from "lucide-react"
 
 export function AddExerciseContent() {
