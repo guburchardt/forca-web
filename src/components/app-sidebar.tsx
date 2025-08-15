@@ -220,7 +220,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const navigationData = getNavigationData(role)
 
   return (
-    <Sidebar {...props} collapsible="icon">
+    <Sidebar {...props} collapsible="offcanvas">
       <SidebarHeader>
         <UserSwitcher />
         <RoleSwitcher />
